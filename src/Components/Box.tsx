@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useContext, useEffect, useState } from "react";
-import { AlchemyContext } from "./AlchemyProvider";
+import { AlchemyContext } from "../Context/AlchemyProvider";
 
 export const Box = () => {
   const { alchemy } = useContext(AlchemyContext);

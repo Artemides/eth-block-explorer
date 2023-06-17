@@ -1,5 +1,5 @@
-import { AlchemyProvider } from "./Components/AlchemyProvider";
-import { Box } from "./Components/Box";
+import { AlchemyProvider } from "../Context/AlchemyProvider";
+import { Box } from "../Components/Box";
 
 export default function Home() {
   return (
