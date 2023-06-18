@@ -3,7 +3,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AlchemyContext } from "../Context/AlchemyProvider";
 
-export const Box = () => {
+export const Block = () => {
   const { alchemy } = useContext(AlchemyContext);
   const [blockNumber, setBlockNumber] = useState(0);
   useEffect(() => {
