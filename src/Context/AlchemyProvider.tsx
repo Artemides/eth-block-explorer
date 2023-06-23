@@ -38,21 +38,17 @@ export const AlchemyProvider = ({ children }: PropsWithChildren) => {
       const transactionFee=BigNumber.from(gasUsed).mul(gasPrice);
       transactionsFee=transactionsFee.add(transactionFee);
     }
-    console.log({transactionsFee})
     return transactionsFee;
   },[alchemy.core])
 
   const getBlockReward=useCallback(async (block:Block)=>{
-    console.log("getBlockReward")
     const blockBaseFeePerGas=block.baseFeePerGas ?? BigNumber.from(0);
     const blockGasUsed=block.gasUsed;
     const transactionsFee=await  getTransactionsFee(block.hash);
-    console.log({transactionsFee})
 
     const burntFee=blockBaseFeePerGas.mul(blockGasUsed);
     const baseBlockReward=BigNumber.from(2);
     const blockReward= baseBlockReward.add(transactionsFee).sub(burntFee);
-    console.log({blockReward})
     return blockReward;
   },[getTransactionsFee])
 
