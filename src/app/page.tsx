@@ -1,11 +1,11 @@
 import { AlchemyProvider } from "../Context/AlchemyProvider";
-import { Block } from "../Components/Block";
+import { Dashboard } from "../Components/Dashboard";
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <AlchemyProvider>
-        <Block />
+        <Dashboard />
       </AlchemyProvider>
     </main>
   );
