@@ -5,7 +5,7 @@ import { AlchemyContext } from "../Context/AlchemyProvider";
 import { BlockStats } from "@/utils/types/blocksTypes";
 import { Block as BlockItem } from "./Block";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
-import { Block } from "alchemy-sdk";
+import { Block, BlockWithTransactions } from "alchemy-sdk";
 import { BlockInfo } from "./BlockInfo";
 import axios from "axios";
 
@@ -18,7 +18,8 @@ export const Dashboard = () => {
     ) as AlchemyContext;
     const [latestBlock, setLatestBlock] = useState<number>(0);
     const [latestBlocks, setlatestBlocks] = useState<BlockStats[]>([]);
-    const [selectedBlock, setSelectedBlock] = useState<Block | null>(null);
+    const [selectedBlock, setSelectedBlock] =
+        useState<BlockWithTransactions | null>(null);
 
     useEffect(() => {
         const getLatestBlocks = async () => {
@@ -61,10 +62,23 @@ export const Dashboard = () => {
     }, [alchemy.core, getBlockReward, latestBlock]);
 
     const onSelectBlock = async (blockNumber: number) => {
-        const thisBlock = await alchemy.core.getBlock(blockNumber);
+        const thisBlock = await alchemy.core.getBlockWithTransactions(
+            blockNumber
+        );
+        const transactions = await alchemy.core.getTransactionReceipts({
+            blockHash: thisBlock.hash,
+        });
 
+        const contractTransactions = (transactions.receipts ?? []).reduce(
+            (contracts, transaction) =>
+                transaction.to && transaction.logs.length > 0
+                    ? contracts + 1
+                    : contracts,
+            0
+        );
+        console.log({ transactions, contractTransactions });
         setSelectedBlock(thisBlock);
-        console.log({ thisBlock: thisBlock.timestamp });
+        console.log({ thisBlock: thisBlock });
     };
     return (
         <div className="grid grid-cols-[500px,1fr] gap-2 p-4">
