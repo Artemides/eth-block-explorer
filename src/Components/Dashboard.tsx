@@ -3,22 +3,28 @@
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AlchemyContext } from "../Context/AlchemyProvider";
 import { BlockStats } from "@/utils/types/blocksTypes";
-import { Block } from "./Block";
+import { Block as BlockItem } from "./Block";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
+import { Block } from "alchemy-sdk";
+import { BlockInfo } from "./BlockInfo";
+import axios from "axios";
 
+const ALCHEMY_RPC_URL =
+    "https://eth-mainnet.g.alchemy.com/v2/k2Qcawyo2CAZZ9wNNtpSh-uV4NLussgi";
+const BLOCKS_OFFSET = 10;
 export const Dashboard = () => {
     const { alchemy, getBlockReward } = useContext(
         AlchemyContext
     ) as AlchemyContext;
     const [latestBlock, setLatestBlock] = useState<number>(0);
     const [latestBlocks, setlatestBlocks] = useState<BlockStats[]>([]);
-    const [blockOffset, setBlockOffset] = useState<number>(10);
+    const [selectedBlock, setSelectedBlock] = useState<Block | null>(null);
 
     useEffect(() => {
         const getLatestBlocks = async () => {
             const blockNumber = await alchemy.core.getBlockNumber();
             setLatestBlock(blockNumber);
-            const latestBlocks: BlockStats[] = new Array(blockOffset)
+            const latestBlocks: BlockStats[] = new Array(BLOCKS_OFFSET)
                 .fill(blockNumber)
                 .map((blockNumber, index) => {
                     return { number: blockNumber - index, reward: "0" };
@@ -27,11 +33,11 @@ export const Dashboard = () => {
             setlatestBlocks(latestBlocks);
         };
         getLatestBlocks();
-    }, [alchemy, blockOffset, getBlockReward]);
+    }, [alchemy, getBlockReward]);
 
     useEffect(() => {
         if (!latestBlock) return;
-        const latestBlocks = new Array(blockOffset)
+        const latestBlocks = new Array(BLOCKS_OFFSET)
             .fill(latestBlock)
             .map((blockNumber, index) => blockNumber - index);
 
@@ -52,18 +58,27 @@ export const Dashboard = () => {
         //     setlatestBlocks(blockStats);
         // };
         // getStats();
-    }, [alchemy.core, blockOffset, getBlockReward, latestBlock]);
+    }, [alchemy.core, getBlockReward, latestBlock]);
 
+    const onSelectBlock = async (blockNumber: number) => {
+        const thisBlock = await alchemy.core.getBlock(blockNumber);
+
+        setSelectedBlock(thisBlock);
+        console.log({ thisBlock: thisBlock.timestamp });
+    };
     return (
         <div className="grid grid-cols-[500px,1fr] gap-2 p-4">
             <aside className="h-[700px]  bg-black/30"></aside>
             <div className="flex flex-col gap-4  flex-1">
                 <h3 className="font-bold text-2xl self-center">Blocks</h3>
-
                 <div className=" flex gap-4 items-center ">
-                    <div className="flex  flex-1  flex-wrap items-center justify-center md:justify-start gap-4 p-2 max-w-full overflow-x-auto">
+                    <div className="flex  flex-1  flex-wrap items-center justify-center md:justify-start gap-4 px-4 py-2 max-w-full overflow-x-auto">
                         {latestBlocks.reverse().map((block) => (
-                            <Block block={block} key={block.number} />
+                            <BlockItem
+                                block={block}
+                                key={block.number}
+                                onSelectBlock={onSelectBlock}
+                            />
                         ))}
                         <button
                             className="
@@ -77,6 +92,9 @@ export const Dashboard = () => {
                         </button>
                     </div>
                 </div>
+                <section id="block-info">
+                    {selectedBlock && <BlockInfo block={selectedBlock} />}
+                </section>
             </div>
         </div>
     );
