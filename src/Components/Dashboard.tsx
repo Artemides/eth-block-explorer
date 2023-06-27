@@ -1,16 +1,20 @@
 "use client";
 
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 import { AlchemyContext } from "../Context/AlchemyProvider";
 import { BlockStats } from "@/utils/types/blocksTypes";
 import { Block as BlockItem } from "./Block";
 import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
-import { Block, BlockWithTransactions } from "alchemy-sdk";
+import { Block, BlockWithTransactions, Utils } from "alchemy-sdk";
 import { BlockInfo } from "./BlockInfo";
 import axios from "axios";
 
-const ALCHEMY_RPC_URL =
-    "https://eth-mainnet.g.alchemy.com/v2/k2Qcawyo2CAZZ9wNNtpSh-uV4NLussgi";
 const BLOCKS_OFFSET = 10;
 export const Dashboard = () => {
     const { alchemy, getBlockReward } = useContext(
@@ -62,10 +66,10 @@ export const Dashboard = () => {
 
     const onSelectBlock = async (blockNumber: number) => {
         const thisBlock = await alchemy.core.getBlock(blockNumber);
+
         const transactions = await alchemy.core.getTransactionReceipts({
             blockHash: thisBlock.hash,
         });
-
         const contractTransactions = (transactions.receipts ?? []).reduce(
             (contracts, transaction) =>
                 transaction.to && transaction.logs.length > 0
