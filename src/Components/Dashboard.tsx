@@ -18,8 +18,7 @@ export const Dashboard = () => {
     ) as AlchemyContext;
     const [latestBlock, setLatestBlock] = useState<number>(0);
     const [latestBlocks, setlatestBlocks] = useState<BlockStats[]>([]);
-    const [selectedBlock, setSelectedBlock] =
-        useState<BlockWithTransactions | null>(null);
+    const [selectedBlock, setSelectedBlock] = useState<Block | null>(null);
 
     useEffect(() => {
         const getLatestBlocks = async () => {
@@ -62,9 +61,7 @@ export const Dashboard = () => {
     }, [alchemy.core, getBlockReward, latestBlock]);
 
     const onSelectBlock = async (blockNumber: number) => {
-        const thisBlock = await alchemy.core.getBlockWithTransactions(
-            blockNumber
-        );
+        const thisBlock = await alchemy.core.getBlock(blockNumber);
         const transactions = await alchemy.core.getTransactionReceipts({
             blockHash: thisBlock.hash,
         });
