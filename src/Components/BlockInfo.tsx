@@ -59,6 +59,15 @@ export const BlockInfo = ({ block }: BlockInfo) => {
     const parseBigNumber = (number: BigNumber | undefined | null) =>
         BigNumber.from(number) ?? BigNumber.from(0);
 
+    const remainingGas = useMemo(() => {
+        const gasLimit = block.gasLimit;
+        const gasUsed = block.gasUsed;
+        const remainingGas = gasUsed.mul(100).div(gasLimit);
+        return BigInt(BigNumber.from(remainingGas).toString()).toLocaleString(
+            "en-US"
+        );
+    }, [block.gasLimit, block.gasUsed]);
+
     return (
         <div className="w-full bg-black/30 p-4 rounded-xl">
             <div
@@ -121,9 +130,10 @@ export const BlockInfo = ({ block }: BlockInfo) => {
                         value={BigInt(
                             BigNumber.from(block.gasUsed).toString()
                         ).toLocaleString("en-Us")}
+                        description={`(${remainingGas} %)`}
                     />
                     <Chip
-                        title={"Gas Used"}
+                        title={"Gas Limit"}
                         value={BigInt(
                             BigNumber.from(block.gasLimit).toString()
                         ).toLocaleString("en-Us")}

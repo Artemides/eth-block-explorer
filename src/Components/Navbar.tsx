@@ -1,24 +1,24 @@
-'use client'
+"use client";
 
-import { AlchemyContext, AlchemyProvider } from '@/Context/AlchemyProvider'
-import React, { useContext, useEffect, useState } from 'react'
-import { MdInsights } from 'react-icons/md'
-import { FaEthereum } from 'react-icons/fa'
+import { AlchemyContext, AlchemyProvider } from "@/Context/AlchemyProvider";
+import React, { useContext, useEffect, useState } from "react";
+import { MdInsights } from "react-icons/md";
+import { FaEthereum } from "react-icons/fa";
 export const Navbar = () => {
-    const { alchemy } = useContext(AlchemyContext) as AlchemyContext
-    const [networkName, setNetworkName] = useState<string>('')
+    const { alchemy } = useContext(AlchemyContext) as AlchemyContext;
+    const [networkName, setNetworkName] = useState<string>("");
 
     useEffect(() => {
         const getNetwork = () => {
-            const network = alchemy.config.network
-            const [name] = network.split('-').reverse()
-            setNetworkName(name)
-        }
-        getNetwork()
-    }, [alchemy.config.network])
+            const network = alchemy.config.network;
+            const [name] = network.split("-").reverse();
+            setNetworkName(name);
+        };
+        getNetwork();
+    }, [alchemy.config.network]);
 
     return (
-        <nav className="sticky top-0 flex justify-center items-center gap-2 w-full py-4 px-16 bg-black/25 ">
+        <nav className="sticky  top-0 flex justify-center items-center gap-2 w-full py-4 px-16 bg-black/25 ">
             <div className="absolute flex gap-2 left-16">
                 <MdInsights size={24} />
                 <span className=" font-semibold text-xl ">EtherInsights</span>
@@ -28,5 +28,5 @@ export const Navbar = () => {
                 {networkName}
             </span>
         </nav>
-    )
-}
+    );
+};
