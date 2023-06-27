@@ -14,6 +14,7 @@ import { ALCHEMY_RPC_URL } from "@/utils/constants/config";
 import axios from "axios";
 import { metadata } from "@/app/layout";
 import { Chip } from "./Chip";
+import { Divider } from "./Divider";
 
 type BlockInfo = {
     block: Block;
@@ -87,6 +88,9 @@ export const BlockInfo = ({ block }: BlockInfo) => {
                         description={"withdrawals"}
                         highlight
                     />
+                </div>
+                <Divider />
+                <div className="grid grid-cols-[max-content,1fr] gap-x-8 gap-y-4">
                     <Chip title={"Miner"} value={block.miner} highlight />
                     <Chip
                         title={"Block Reward"}
@@ -106,7 +110,7 @@ export const BlockInfo = ({ block }: BlockInfo) => {
                                 description="ETH"
                             />
                             <Chip
-                                title={"Total Dificulty"}
+                                title={"Size"}
                                 value={parseInt(
                                     blockMetaData.size
                                 ).toLocaleString("en-US")}
