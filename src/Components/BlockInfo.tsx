@@ -1,20 +1,14 @@
 import { BigNumber, Block, BlockWithTransactions, Utils } from "alchemy-sdk";
-import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState,
-} from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BlockStatus } from "./BlockStatus";
 import { BsBox } from "react-icons/bs";
 import moment from "moment";
 import { AlchemyContext } from "@/Context/AlchemyProvider";
 import { ALCHEMY_RPC_URL } from "@/utils/constants/config";
 import axios from "axios";
-import { metadata } from "@/app/layout";
 import { Chip } from "./Chip";
 import { Divider } from "./Divider";
+import { metadata } from "@/app/layout";
 
 type BlockInfo = {
     block: Block;
@@ -61,6 +55,10 @@ export const BlockInfo = ({ block }: BlockInfo) => {
         };
         calcBlockReward();
     }, [block, getBlockReward]);
+
+    const parseBigNumber = (number: BigNumber | undefined | null) =>
+        BigNumber.from(number) ?? BigNumber.from(0);
+
     return (
         <div className="w-full bg-black/30 p-4 rounded-xl">
             <div
@@ -88,9 +86,7 @@ export const BlockInfo = ({ block }: BlockInfo) => {
                         description={"withdrawals"}
                         highlight
                     />
-                </div>
-                <Divider />
-                <div className="grid grid-cols-[max-content,1fr] gap-x-8 gap-y-4">
+                    <Divider className="col-span-2" />
                     <Chip title={"Miner"} value={block.miner} highlight />
                     <Chip
                         title={"Block Reward"}
@@ -118,6 +114,41 @@ export const BlockInfo = ({ block }: BlockInfo) => {
                             />
                         </>
                     )}
+                    <Divider className="col-span-2" />
+
+                    <Chip
+                        title={"Gas Used"}
+                        value={BigInt(
+                            BigNumber.from(block.gasUsed).toString()
+                        ).toLocaleString("en-Us")}
+                    />
+                    <Chip
+                        title={"Gas Used"}
+                        value={BigInt(
+                            BigNumber.from(block.gasLimit).toString()
+                        ).toLocaleString("en-Us")}
+                    />
+                    <Chip
+                        title={"BaseFeePerGas"}
+                        value={`${Utils.formatEther(
+                            block.baseFeePerGas ?? BigNumber.from(0)
+                        )} ETH`}
+                        description={`(
+                        ${Utils.formatUnits(
+                            (block.baseFeePerGas ?? "").toString(),
+                            "gwei"
+                        )} Gwei)`}
+                    />
+                    <Chip
+                        title={"Burnt Fees"}
+                        value={Utils.formatEther(
+                            parseBigNumber(block.baseFeePerGas).mul(
+                                block.gasUsed
+                            )
+                        )}
+                        description={"ETH"}
+                    />
+                    <Chip title={"Extra Data"} value={block.extraData} />
                 </div>
             </div>
         </div>
