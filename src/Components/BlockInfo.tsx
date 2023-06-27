@@ -13,6 +13,7 @@ import { AlchemyContext } from "@/Context/AlchemyProvider";
 import { ALCHEMY_RPC_URL } from "@/utils/constants/config";
 import axios from "axios";
 import { metadata } from "@/app/layout";
+import { Chip } from "./Chip";
 
 type BlockInfo = {
     block: Block;
@@ -73,40 +74,44 @@ export const BlockInfo = ({ block }: BlockInfo) => {
                 <span>{blockDate}</span>
             </div>
             <div>
-                <div className="grid grid-cols-[max-content,1fr] gap-4">
-                    <span>Transactions: </span>
-                    <span className="font-semibold text-sky-400">
-                        {block.transactions.length} transactions
-                    </span>
-                    <span>Withdrawals: </span>
-                    <span className="font-semibold text-sky-400">
-                        {blockMetaData?.withdrawals.length ?? 0} withdrawals
-                    </span>
-                    <span>Miner: </span>
-                    <span className="font-semibold text-sky-400 break-all">
-                        {block.miner}
-                    </span>
-                    <span>Block Reward: </span>
-                    <span className="font-semibold text-sky-400 break-all">
-                        {blockReward} ETH
-                    </span>
+                <div className="grid grid-cols-[max-content,1fr] gap-x-8 gap-y-4">
+                    <Chip
+                        title={"Transactions"}
+                        value={block.transactions.length}
+                        description={"transactions"}
+                        highlight
+                    />
+                    <Chip
+                        title={"Withdrawals"}
+                        value={blockMetaData?.withdrawals.length ?? 0}
+                        description={"withdrawals"}
+                        highlight
+                    />
+                    <Chip title={"Miner"} value={block.miner} highlight />
+                    <Chip
+                        title={"Block Reward"}
+                        value={blockReward}
+                        description="ETH"
+                    />
+
                     {blockMetaData && (
                         <>
-                            <span>Total Dificulty: </span>
-                            <span>
-                                {BigInt(
+                            <Chip
+                                title={"Total Dificulty"}
+                                value={BigInt(
                                     BigNumber.from(
                                         blockMetaData.totalDifficulty
                                     ).toString()
                                 ).toLocaleString("en-US")}
-                            </span>
-                            <span>Size: </span>
-                            <span>
-                                {parseInt(blockMetaData.size).toLocaleString(
-                                    "en-US"
-                                )}{" "}
-                                bytes
-                            </span>
+                                description="ETH"
+                            />
+                            <Chip
+                                title={"Total Dificulty"}
+                                value={parseInt(
+                                    blockMetaData.size
+                                ).toLocaleString("en-US")}
+                                description="bytes"
+                            />
                         </>
                     )}
                 </div>
