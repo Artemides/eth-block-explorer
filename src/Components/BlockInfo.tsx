@@ -15,6 +15,8 @@ type BlockInfo = {
 };
 type BlockMetadata = Block & {
     totalDifficulty: string;
+    stateRoot: string;
+    withdrawalsRoot: string;
     size: string;
     withdrawals: any[];
 };
@@ -69,7 +71,7 @@ export const BlockInfo = ({ block }: BlockInfo) => {
     }, [block.gasLimit, block.gasUsed]);
 
     return (
-        <div className="w-full bg-black/30 p-4 rounded-xl">
+        <div className="w-full bg-black/30 p-4 rounded-xl  ring-1 ring-sky-800/30   ">
             <div
                 id="block-info-header"
                 className="flex justify-between gap-2 items-center"
@@ -82,7 +84,7 @@ export const BlockInfo = ({ block }: BlockInfo) => {
                 <span>{blockDate}</span>
             </div>
             <div>
-                <div className="grid grid-cols-[max-content,1fr] gap-x-8 gap-y-4">
+                <div className="grid grid-cols-[max-content,1fr] gap-x-8 gap-y-4 mt-4">
                     <Chip
                         title={"Transactions"}
                         value={block.transactions.length}
@@ -159,6 +161,21 @@ export const BlockInfo = ({ block }: BlockInfo) => {
                         description={"ETH"}
                     />
                     <Chip title={"Extra Data"} value={block.extraData} />
+                    <Divider className="col-span-2" />
+                    <Chip title="Hash" value={block.hash} />
+                    <Chip
+                        title="Parent Hash"
+                        value={block.parentHash}
+                        highlight
+                    />
+                    <Chip
+                        title="State Root"
+                        value={blockMetaData?.stateRoot ?? ""}
+                    />
+                    <Chip
+                        title="Withdrawals Root"
+                        value={blockMetaData?.withdrawalsRoot ?? ""}
+                    />
                 </div>
             </div>
         </div>
