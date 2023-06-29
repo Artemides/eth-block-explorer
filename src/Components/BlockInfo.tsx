@@ -8,8 +8,7 @@ import { ALCHEMY_RPC_URL } from "@/utils/constants/config";
 import axios from "axios";
 import { Chip } from "./Chip";
 import { Divider } from "./Divider";
-import { metadata } from "@/app/layout";
-
+import { useRouter } from "next/navigation";
 type BlockInfo = {
     block: Block;
 };
@@ -27,6 +26,8 @@ export const BlockInfo = ({ block }: BlockInfo) => {
     const [blockMetaData, setBlockMetaData] = useState<BlockMetadata | null>(
         null
     );
+    const router = useRouter();
+
     const blockDate = useMemo(() => {
         const date = moment(block.timestamp * 1000).format(
             "MMMM Do YYYY, h:mm:ss a"
@@ -70,6 +71,10 @@ export const BlockInfo = ({ block }: BlockInfo) => {
         );
     }, [block.gasLimit, block.gasUsed]);
 
+    const onViewTransactions = () => {
+        router.push(`/transactions/${block.number}`);
+    };
+
     return (
         <div className="w-full bg-black/30 p-4 rounded-xl  ring-1 ring-sky-800/30   ">
             <div
@@ -90,6 +95,7 @@ export const BlockInfo = ({ block }: BlockInfo) => {
                         value={block.transactions.length}
                         description={"transactions"}
                         highlight
+                        onClick={onViewTransactions}
                     />
                     <Chip
                         title={"Withdrawals"}

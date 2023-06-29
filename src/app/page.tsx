@@ -4,11 +4,8 @@ import { Navbar } from "@/Components/Navbar";
 
 export default function Home() {
     return (
-        <main className=" flex min-h-screen flex-col  bg-gradient-radial from-indigo-950 from-10%  to-black overflow-x-hidden">
-            <AlchemyProvider>
-                <Navbar />
-                <Dashboard />
-            </AlchemyProvider>
+        <main className=" flex min-h-screen flex-col  ">
+            <Dashboard />
         </main>
     );
 }

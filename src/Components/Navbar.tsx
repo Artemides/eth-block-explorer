@@ -18,7 +18,7 @@ export const Navbar = () => {
     }, [alchemy.config.network]);
 
     return (
-        <nav className="sticky  top-0 flex justify-center items-center gap-2 w-full py-4 px-16 bg-black/25 ">
+        <nav className="sticky  top-0 flex justify-center items-center gap-2 w-full py-4 px-16 bg-black/25 backdrop-blur-sm border-b-sky-500/20 border-b-[1px] ">
             <div className="absolute flex gap-2 left-16">
                 <MdInsights size={24} />
                 <span className=" font-semibold text-xl ">EtherInsights</span>
