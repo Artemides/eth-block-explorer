@@ -14,6 +14,7 @@ import { BsArrowLeftCircle, BsArrowRightCircle } from "react-icons/bs";
 import { Block, BlockWithTransactions, Utils } from "alchemy-sdk";
 import { BlockInfo } from "./BlockInfo";
 import axios from "axios";
+import { Modal } from "./Modal";
 
 const BLOCKS_OFFSET = 10;
 export const Dashboard = () => {
@@ -82,35 +83,37 @@ export const Dashboard = () => {
         console.log({ thisBlock: thisBlock });
     };
     return (
-        <div className="grid grid-cols-[500px,1fr] gap-2 p-4">
-            <aside className="h-[700px]  bg-black/30"></aside>
-            <div className="flex flex-col gap-4  flex-1">
-                <h3 className="font-bold text-2xl self-center">Blocks</h3>
-                <div className=" flex gap-4 items-center ">
-                    <div className="flex  flex-1  flex-wrap items-center justify-center md:justify-start gap-4 px-4 py-2 max-w-full overflow-x-auto">
-                        {latestBlocks.reverse().map((block) => (
-                            <BlockItem
-                                block={block}
-                                key={block.number}
-                                onSelectBlock={onSelectBlock}
-                            />
-                        ))}
-                        <button
-                            className="
-                        text-xs py-[2px] px-2 bg-amber-500/50 ring-2 ring-amber-500 rounded-full
-                        cursor-pointer transition-colors duration-300 ease-out
-                         hover:bg-amber-500
-                        "
-                        >
-                            {" "}
-                            All blocks
-                        </button>
+        <>
+            <div className="grid grid-cols-[500px,1fr] gap-2 p-4">
+                <aside className="h-[700px]  bg-black/30"></aside>
+                <div className="flex flex-col gap-4  flex-1">
+                    <h3 className="font-bold text-2xl self-center">Blocks</h3>
+                    <div className=" flex gap-4 items-center ">
+                        <div className="flex  flex-1  flex-wrap items-center justify-center md:justify-start gap-4 px-4 py-2 max-w-full overflow-x-auto">
+                            {latestBlocks.reverse().map((block) => (
+                                <BlockItem
+                                    block={block}
+                                    key={block.number}
+                                    onSelectBlock={onSelectBlock}
+                                />
+                            ))}
+                            <button
+                                className="
+                                text-xs py-[2px] px-2 bg-amber-500/50 ring-2 ring-amber-500 rounded-full
+                                cursor-pointer transition-colors duration-300 ease-out
+                                hover:bg-amber-500
+                                "
+                            >
+                                {" "}
+                                All blocks
+                            </button>
+                        </div>
                     </div>
+                    <section id="block-info">
+                        {selectedBlock && <BlockInfo block={selectedBlock} />}
+                    </section>
                 </div>
-                <section id="block-info">
-                    {selectedBlock && <BlockInfo block={selectedBlock} />}
-                </section>
             </div>
-        </div>
+        </>
     );
 };
