@@ -44,11 +44,13 @@ const BlockWithTransactions = ({
     return (
         <article className="m-8 flex flex-col gap-8">
             <h1 className="text-2xl font-bold">Transactions </h1>
-            <div className="flex gap-2 px-4 py-8 ring-1 ring-sky-500/20 rounded-md divide-x-2">
+            <div className="flex gap-4 px-4 py-8 ring-1 ring-sky-500/20 rounded-md divide-x-2 divide-sky-500/30">
                 <span className="text-3xl font-bold">
                     Block: #{block?.number}
                 </span>
-                <span className="text-3xl font-bold">Age: {blockDate}</span>
+                <span className="text-3xl font-bold pl-4">
+                    Age: {blockDate}
+                </span>
             </div>
             {block && (
                 <div className="flex flex-col gap-2 8 ring-1 ring-sky-500/20 rounded-md">

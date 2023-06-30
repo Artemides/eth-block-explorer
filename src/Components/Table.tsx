@@ -14,8 +14,8 @@ const fancyString = (str: string) => {
 const Table = ({ transactions }: TableProps) => {
     return (
         <table className=" overflow-y-auto">
-            <thead className="">
-                <tr className="[&>th]:py-2 [&>th>span]:font-bold bg-sky-500/10 ">
+            <thead className="sticky top-[57px] ">
+                <tr className="[&>th]:py-2 [&>th>span]:font-bold bg-sky-500/10 backdrop-blur-sm ">
                     {tableHeaders.map((head) => (
                         <th key={head}>
                             <span>{head}</span>
