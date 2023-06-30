@@ -72,7 +72,7 @@ export const BlockInfo = ({ block }: BlockInfo) => {
     }, [block.gasLimit, block.gasUsed]);
 
     const onViewTransactions = () => {
-        router.push(`/transactions/${block.number}`);
+        router.push(`/transactions/${block.hash}`);
     };
 
     return (

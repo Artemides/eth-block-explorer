@@ -1,16 +1,7 @@
 import { TransactionResponse, Utils } from "alchemy-sdk";
 import React from "react";
 import { BsArrowRightCircle } from "react-icons/bs";
-const tableHeaders = [
-    "Txn Hash",
-    "Method",
-    "Block",
-    "Age",
-    "From",
-    "",
-    "To",
-    "Value",
-];
+const tableHeaders = ["Txn Hash", "Method", "From", "", "To", "Value"];
 
 type TableProps = {
     transactions: TransactionResponse[];
@@ -49,12 +40,7 @@ const Table = ({ transactions }: TableProps) => {
                                 unkown
                             </p>
                         </td>
-                        <td>
-                            <p>{tx.blockNumber}</p>
-                        </td>
-                        <td>
-                            <p>{tx.timestamp}</p>
-                        </td>
+
                         <td>
                             <p className="font-semibold text-sky-500">
                                 {fancyString(tx.from)}
