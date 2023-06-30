@@ -31,7 +31,7 @@ const BlockWithTransactions = ({
     }, [alchemy.core, blockNumber]);
 
     return (
-        <div className="flex flex-col gap-2 m-8 ring-1 ring-sky-500/30 rounded-md">
+        <div className="flex flex-col gap-2 m-8 ring-1 ring-sky-500/20 rounded-md">
             <Table transactions={blockTransactions} />
         </div>
     );
