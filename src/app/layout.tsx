@@ -23,7 +23,7 @@ export default function RootLayout({
             <body
                 className={
                     inter.className +
-                    " bg-gradient-radial from-indigo-950 from-10%  to-black overflow-x-hidden"
+                    " min-h-screen bg-gradient-radial from-indigo-950 from-10%  to-black overflow-x-hidden bg-no-repeat"
                 }
             >
                 <AlchemyProvider>

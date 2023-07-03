@@ -1,4 +1,5 @@
 import { TransactionResponse, Utils } from "alchemy-sdk";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { BsArrowRightCircle } from "react-icons/bs";
@@ -52,9 +53,12 @@ const Table = ({ transactions, viewTransaction }: TableProps) => {
                         </td>
 
                         <td>
-                            <p className="font-semibold text-sky-500">
+                            <Link
+                                href={`/accounts/${tx.from}`}
+                                className="font-semibold text-sky-500"
+                            >
                                 {fancyString(tx.from)}
-                            </p>
+                            </Link>
                         </td>
                         <td>
                             <p className="font-semibold text-green-400">
@@ -62,9 +66,12 @@ const Table = ({ transactions, viewTransaction }: TableProps) => {
                             </p>
                         </td>
                         <td>
-                            <p className="font-semibold text-sky-500">
+                            <Link
+                                href={`/accounts/${tx.to}`}
+                                className="font-semibold text-sky-500"
+                            >
                                 {fancyString(tx.to ?? "")}
-                            </p>
+                            </Link>
                         </td>
                         <td>
                             <p>{`${Utils.formatEther(tx.value)}  ETH`}</p>
