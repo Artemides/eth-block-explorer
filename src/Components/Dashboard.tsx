@@ -65,23 +65,31 @@ export const Dashboard = () => {
         // getStats();
     }, [alchemy.core, getBlockReward, latestBlock]);
 
-    const onSelectBlock = async (blockNumber: number) => {
-        const thisBlock = await alchemy.core.getBlock(blockNumber);
+    const onSelectBlock = useCallback(
+        async (blockNumber: number) => {
+            const thisBlock = await alchemy.core.getBlock(blockNumber);
 
-        const transactions = await alchemy.core.getTransactionReceipts({
-            blockHash: thisBlock.hash,
-        });
-        const contractTransactions = (transactions.receipts ?? []).reduce(
-            (contracts, transaction) =>
-                transaction.to && transaction.logs.length > 0
-                    ? contracts + 1
-                    : contracts,
-            0
-        );
-        console.log({ transactions, contractTransactions });
-        setSelectedBlock(thisBlock);
-        console.log({ thisBlock: thisBlock });
-    };
+            const transactions = await alchemy.core.getTransactionReceipts({
+                blockHash: thisBlock.hash,
+            });
+            const contractTransactions = (transactions.receipts ?? []).reduce(
+                (contracts, transaction) =>
+                    transaction.to && transaction.logs.length > 0
+                        ? contracts + 1
+                        : contracts,
+                0
+            );
+            console.log({ transactions, contractTransactions });
+            setSelectedBlock(thisBlock);
+            console.log({ thisBlock: thisBlock });
+        },
+        [alchemy.core]
+    );
+
+    useEffect(() => {
+        if (!latestBlock) return;
+        onSelectBlock(latestBlock);
+    }, [latestBlock, onSelectBlock]);
     return (
         <>
             <div className="grid grid-cols-[500px,1fr] gap-2 p-4">
