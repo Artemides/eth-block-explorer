@@ -13,7 +13,6 @@ type AddressProps = {
 const Address = ({ params }: { params: AddressProps }) => {
     const { address } = params;
     const [balance, setBalance] = useState<string>("");
-    const [transactions, setTransactions] = useState([]);
     const [nfts, setNfts] = useState<OwnedNftsResponse>();
     const { alchemy } = useContext(AlchemyContext) as AlchemyContext;
     useEffect(() => {
@@ -32,11 +31,9 @@ const Address = ({ params }: { params: AddressProps }) => {
                     AssetTransfersCategory.ERC721,
                 ],
             });
-            console.log({ gg });
         };
         const retrieveNfts = async () => {
             const nftResponse = await alchemy.nft.getNftsForOwner(address);
-            console.log({ nftResponse });
             setNfts(nftResponse);
         };
 

@@ -28,9 +28,6 @@ const BlockTransactions = ({
         const retrieveTransactions = async () => {
             const blockWithTransactions =
                 await alchemy.core.getBlockWithTransactions(blockHash);
-            console.log({
-                transactionssss: blockWithTransactions.transactions,
-            });
 
             setblock(blockWithTransactions);
         };

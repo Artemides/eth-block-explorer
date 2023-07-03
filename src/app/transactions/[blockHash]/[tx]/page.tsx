@@ -30,7 +30,6 @@ const Transaction = ({ params }: { params: { tx: string } }) => {
         const retrieveTransaction = async () => {
             const response = await alchemy.core.getTransaction(tx);
             const txReceipt = await alchemy.core.getTransactionReceipt(tx);
-            console.log({ txReceipt });
             setTransactionReceipt(txReceipt);
             setTransaction(response);
             if (!response) return;

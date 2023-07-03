@@ -78,16 +78,13 @@ export const Dashboard = () => {
                         : contracts,
                 0
             );
-            console.log({ transactions, contractTransactions });
             setSelectedBlock(thisBlock);
-            console.log({ thisBlock: thisBlock });
         },
         [alchemy.core]
     );
 
     useEffect(() => {
         const alchemySocket = alchemy.ws.on("block", (blockNumber) => {
-            console.log({ blockNumber });
             setLatestBlock(blockNumber);
         });
         return () => {

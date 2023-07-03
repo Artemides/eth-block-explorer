@@ -44,7 +44,6 @@ export const BlockInfo = ({ block }: BlockInfo) => {
                 params: [Utils.hexValue(block.number), true],
             });
             const metaData = response.data.result as BlockMetadata;
-            console.log({ metaData });
             setBlockMetaData(metaData);
         };
         getBlockMetadata();
