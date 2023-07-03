@@ -21,16 +21,15 @@ export const Dashboard = () => {
     const { alchemy, getBlockReward } = useContext(
         AlchemyContext
     ) as AlchemyContext;
+
     const [latestBlock, setLatestBlock] = useState<number>(0);
     const [latestBlocks, setlatestBlocks] = useState<BlockStats[]>([]);
     const [selectedBlock, setSelectedBlock] = useState<Block | null>(null);
 
     useEffect(() => {
         const getLatestBlocks = async () => {
-            const blockNumber = await alchemy.core.getBlockNumber();
-            setLatestBlock(blockNumber);
             const latestBlocks: BlockStats[] = new Array(BLOCKS_OFFSET)
-                .fill(blockNumber)
+                .fill(latestBlock)
                 .map((blockNumber, index) => {
                     return { number: blockNumber - index, reward: "0" };
                 });
@@ -38,7 +37,7 @@ export const Dashboard = () => {
             setlatestBlocks(latestBlocks);
         };
         getLatestBlocks();
-    }, [alchemy, getBlockReward]);
+    }, [alchemy, getBlockReward, latestBlock]);
 
     useEffect(() => {
         if (!latestBlock) return;
@@ -87,15 +86,22 @@ export const Dashboard = () => {
     );
 
     useEffect(() => {
-        if (!latestBlock) return;
-        onSelectBlock(latestBlock);
-    }, [latestBlock, onSelectBlock]);
+        const alchemySocket = alchemy.ws.on("block", (blockNumber) => {
+            console.log({ blockNumber });
+            setLatestBlock(blockNumber);
+        });
+        return () => {
+            alchemySocket.off("block");
+        };
+    }, [alchemy.ws]);
+
     return (
         <>
             <div className="grid grid-cols-[500px,1fr] gap-2 p-4">
-                <aside className="h-[700px]  bg-black/30"></aside>
-                <div className="flex flex-col gap-4  flex-1">
-                    <h3 className="font-bold text-2xl self-center">Blocks</h3>
+                <aside className=" bg-black/30 p-4 rounded-xl  ring-1 ring-sky-800/30">
+                    <h3 className="font-bold text-2xl self-center text-center">
+                        Latests Blocks
+                    </h3>
                     <div className=" flex gap-4 items-center ">
                         <div className="flex  flex-1  flex-wrap items-center justify-center md:justify-start gap-4 px-4 py-2 max-w-full overflow-x-auto">
                             {latestBlocks.reverse().map((block) => (
@@ -117,6 +123,8 @@ export const Dashboard = () => {
                             </button>
                         </div>
                     </div>
+                </aside>
+                <div className="flex flex-col gap-4  flex-1">
                     <section id="block-info">
                         {selectedBlock && <BlockInfo block={selectedBlock} />}
                     </section>

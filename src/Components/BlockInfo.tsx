@@ -104,7 +104,14 @@ export const BlockInfo = ({ block }: BlockInfo) => {
                         highlight
                     />
                     <Divider className="col-span-2" />
-                    <Chip title={"Miner"} value={block.miner} highlight />
+                    <Chip
+                        title={"Miner"}
+                        value={block.miner}
+                        highlight
+                        onClick={() => {
+                            router.push(`/accounts/${block.miner}`);
+                        }}
+                    />
                     <Chip
                         title={"Block Reward"}
                         value={blockReward}
