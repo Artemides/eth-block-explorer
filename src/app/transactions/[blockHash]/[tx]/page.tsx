@@ -13,7 +13,7 @@ import {
     Utils,
 } from "alchemy-sdk";
 import moment from "moment";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 
 const Transaction = ({ params }: { params: { tx: string } }) => {
     const { alchemy } = useContext(AlchemyContext) as AlchemyContext;
@@ -42,6 +42,20 @@ const Transaction = ({ params }: { params: { tx: string } }) => {
         };
         retrieveTransaction();
     }, [alchemy.core, tx]);
+
+    const transactionFee = useMemo(() => {
+        const gasUsed = transactionReceipt?.gasUsed ?? BigNumber.from(0);
+        const baseFeePerGas = block?.baseFeePerGas ?? BigNumber.from(0);
+        const maxPriorityFeePerGas =
+            transaction?.maxPriorityFeePerGas ?? BigNumber.from(0);
+
+        return gasUsed.mul(baseFeePerGas.add(maxPriorityFeePerGas)).toString();
+    }, [
+        block?.baseFeePerGas,
+        transaction?.maxPriorityFeePerGas,
+        transactionReceipt?.gasUsed,
+    ]);
+
     return (
         <section className="p-8">
             <h2 className="text-2xl font-bold mb-4">Transactions Details</h2>
@@ -95,6 +109,17 @@ const Transaction = ({ params }: { params: { tx: string } }) => {
                         description={`(${Utils.formatEther(
                             BigNumber.from(transaction?.value ?? 0)
                         )} ETH)`}
+                    />
+                    <Chip
+                        title="Transaction Fee"
+                        value={`${Utils.formatEther(transactionFee)} ETH`}
+                    />
+                    <Chip
+                        title="Gas Price"
+                        value={`${Utils.formatUnits(
+                            BigNumber.from(transaction?.gasPrice),
+                            "gwei"
+                        )} Gwei`}
                     />
                 </div>
             </article>
