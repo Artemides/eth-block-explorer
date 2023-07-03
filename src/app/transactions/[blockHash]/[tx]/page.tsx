@@ -1,11 +1,10 @@
 "use client";
 
 import { Chip } from "@/Components/Chip";
+import TransactionStatus from "@/Components/TransactionStatus";
 import { AlchemyContext } from "@/Context/AlchemyProvider";
 import { TransactionReceipt } from "alchemy-sdk";
 import React, { useContext, useEffect, useState } from "react";
-
-
 
 const Transaction = ({ params }: { params: { tx: string } }) => {
     const { alchemy } = useContext(AlchemyContext) as AlchemyContext;
@@ -33,8 +32,19 @@ const Transaction = ({ params }: { params: { tx: string } }) => {
                         title="Transaction Hash"
                         value={transaction?.transactionHash}
                     />
-                    <
-                    <Chip title="Status" value={transaction?.transactionHash} />
+
+                    <Chip
+                        title="Status"
+                        value={
+                            <TransactionStatus
+                                status={
+                                    transaction && transaction.status === 1
+                                        ? "confirmed"
+                                        : "failed"
+                                }
+                            />
+                        }
+                    />
                 </div>
             </article>
         </section>

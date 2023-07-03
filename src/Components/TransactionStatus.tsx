@@ -42,11 +42,13 @@ type TxStatus = {
     status: TransactionStatus;
 };
 const TransactionStatus = ({ status }: TxStatus) => {
-    <div
-        className={`px-2 py-[2px] rounded-full ring-1 text-xs ${TrnasactionStatus[status].style}`}
-    >
-        {status}
-    </div>;
+    return (
+        <div
+            className={`max-w-max px-2 py-[2px] rounded-full ring-1 text-xs ${TrnasactionStatus[status].style}`}
+        >
+            {status}
+        </div>
+    );
 };
 
 export default TransactionStatus;
