@@ -13,7 +13,7 @@ type BlockWithTransactionsProps = {
     blockHash: string;
 };
 
-const BlockWithTransactions = ({
+const BlockTransactions = ({
     params,
 }: {
     params: BlockWithTransactionsProps;
@@ -77,4 +77,4 @@ const BlockWithTransactions = ({
         </article>
     );
 };
-export default BlockWithTransactions;
+export default BlockTransactions;
