@@ -4,6 +4,7 @@ import Table from "@/Components/Table";
 import { AlchemyContext } from "@/Context/AlchemyProvider";
 import { Block, BlockWithTransactions, TransactionResponse } from "alchemy-sdk";
 import moment from "moment";
+import { useRouter } from "next/navigation";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { BiTime, BiGasPump } from "react-icons/bi";
 import { BsBox } from "react-icons/bs";
@@ -19,6 +20,7 @@ const BlockWithTransactions = ({
 }) => {
     const { blockHash } = params;
     const { alchemy } = useContext(AlchemyContext) as AlchemyContext;
+    const router = useRouter();
 
     const [block, setblock] = useState<BlockWithTransactions | null>(null);
 
@@ -43,6 +45,10 @@ const BlockWithTransactions = ({
         return date;
     }, [block]);
 
+    const viewTransaction = (txHash: string) => {
+        router.push(`/transactions/${block?.hash}/${txHash}`);
+    };
+
     return (
         <article className="m-8 flex flex-col  gap-8">
             <h1 className="text-2xl font-bold">Transactions </h1>
@@ -62,7 +68,10 @@ const BlockWithTransactions = ({
             </div>
             {block && (
                 <div className="flex flex-col gap-2 8 ring-1 ring-sky-500/20 rounded-md">
-                    <Table transactions={block.transactions} />
+                    <Table
+                        transactions={block.transactions}
+                        viewTransaction={viewTransaction}
+                    />
                 </div>
             )}
         </article>
