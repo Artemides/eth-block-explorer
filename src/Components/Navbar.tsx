@@ -4,6 +4,7 @@ import { AlchemyContext, AlchemyProvider } from "@/Context/AlchemyProvider";
 import React, { useContext, useEffect, useState } from "react";
 import { MdInsights } from "react-icons/md";
 import { FaEthereum } from "react-icons/fa";
+import Link from "next/link";
 export const Navbar = () => {
     const { alchemy } = useContext(AlchemyContext) as AlchemyContext;
     const [networkName, setNetworkName] = useState<string>("");
@@ -21,7 +22,9 @@ export const Navbar = () => {
         <nav className="sticky  top-0 flex justify-center items-center gap-2 w-full py-4 px-16 bg-black/25 backdrop-blur-sm ">
             <div className="absolute flex gap-2 left-16">
                 <MdInsights size={24} />
-                <span className=" font-semibold text-xl ">EtherInsights</span>
+                <Link href={"/"} className=" font-semibold text-xl ">
+                    EtherInsights
+                </Link>
             </div>
             <span className="flex items-center gap-[1px] font-semibold capitalize  py-[4px] px-2 text-xs text-indigo-400  rounded-full ring-2 ring-indigo-900 bg-indigo-900/40 shadow-md">
                 <FaEthereum size={16} />

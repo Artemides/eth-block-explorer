@@ -26,7 +26,7 @@ export const Chip = ({
                 onClick={onClick}
             >
                 {value}{" "}
-                <span className="text-gray-400">
+                <span className="text-gray-400 font-normal">
                     {description && description}
                 </span>
             </div>

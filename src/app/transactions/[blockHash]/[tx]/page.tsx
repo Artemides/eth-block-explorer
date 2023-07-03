@@ -30,7 +30,7 @@ const Transaction = ({ params }: { params: { tx: string } }) => {
         const retrieveTransaction = async () => {
             const response = await alchemy.core.getTransaction(tx);
             const txReceipt = await alchemy.core.getTransactionReceipt(tx);
-            console.log({ response });
+            console.log({ txReceipt });
             setTransactionReceipt(txReceipt);
             setTransaction(response);
             if (!response) return;
@@ -85,11 +85,12 @@ const Transaction = ({ params }: { params: { tx: string } }) => {
                         description={`${
                             transaction?.confirmations ?? 0
                         } Block Confirmations`}
+                        highlight
                     />
                     {block && (
                         <Chip
                             title="Timestamp"
-                            value={`${moment(block.timestamp * 1000)
+                            value={`⏱️${moment(block.timestamp * 1000)
                                 .startOf("hour")
                                 .fromNow()} (${moment(
                                 block.timestamp * 1000
@@ -98,8 +99,16 @@ const Transaction = ({ params }: { params: { tx: string } }) => {
                     )}
                     <Divider className="col-span-2" />
 
-                    <Chip title="From" value={transaction?.from ?? "0x"} />
-                    <Chip title="To" value={transaction?.to ?? "0x"} />
+                    <Chip
+                        title="From"
+                        value={transaction?.from ?? "0x"}
+                        highlight
+                    />
+                    <Chip
+                        title="To"
+                        value={transaction?.to ?? "0x"}
+                        highlight
+                    />
                     <Chip
                         title="Value"
                         value={`${Utils.formatUnits(
@@ -117,7 +126,7 @@ const Transaction = ({ params }: { params: { tx: string } }) => {
                     <Chip
                         title="Gas Price"
                         value={`${Utils.formatUnits(
-                            BigNumber.from(transaction?.gasPrice),
+                            BigNumber.from(transaction?.gasPrice ?? 0),
                             "gwei"
                         )} Gwei`}
                     />
