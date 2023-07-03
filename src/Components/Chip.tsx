@@ -17,7 +17,7 @@ export const Chip = ({
     return (
         <>
             <span className="text-gray-200">{title} : </span>
-            <span
+            <div
                 className={
                     highlight
                         ? "font-semibold text-sky-400 cursor-pointer hover:text-sky-500"
@@ -25,8 +25,11 @@ export const Chip = ({
                 }
                 onClick={onClick}
             >
-                {value} {description && description}
-            </span>
+                {value}{" "}
+                <span className="text-gray-400">
+                    {description && description}
+                </span>
+            </div>
         </>
     );
 };

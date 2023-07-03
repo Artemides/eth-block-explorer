@@ -88,9 +88,13 @@ const Transaction = ({ params }: { params: { tx: string } }) => {
                     <Chip title="To" value={transaction?.to ?? "0x"} />
                     <Chip
                         title="Value"
-                        value={Utils.formatEther(
+                        value={`${Utils.formatUnits(
+                            BigNumber.from(transaction?.value ?? 0),
+                            "gwei"
+                        )} Gwei`}
+                        description={`(${Utils.formatEther(
                             BigNumber.from(transaction?.value ?? 0)
-                        )}
+                        )} ETH)`}
                     />
                 </div>
             </article>
