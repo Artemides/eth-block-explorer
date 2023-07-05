@@ -44,24 +44,6 @@ export const Dashboard = () => {
         const latestBlocks = new Array(BLOCKS_OFFSET)
             .fill(latestBlock)
             .map((blockNumber, index) => blockNumber - index);
-
-        // const getStats = async () => {
-        //     await Promise.all(
-        //         latestBlocks.map(async (blockNumber) => {
-        //             const block = await alchemy.core.getBlock(blockNumber);
-        //             const blockReward = await getBlockReward(block);
-        //             const blockRewardEther =
-        //                 Utils.formatEther(blockReward).toString();
-        //             blockStats.push({
-        //                 number: blockNumber,
-        //                 reward: blockRewardEther,
-        //             });
-        //         })
-        //     );
-        //     blockStats.sort((a, b) => b.number - a.number);
-        //     setlatestBlocks(blockStats);
-        // };
-        // getStats();
     }, [alchemy.core, getBlockReward, latestBlock]);
 
     const onSelectBlock = useCallback(
